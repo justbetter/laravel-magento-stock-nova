@@ -4,14 +4,11 @@
     "type": "package",
     "license": "MIT",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "laravel/nova": "^4.0",
-        "justbetter/nova-error-logger": "^4.0.0",
-        "justbetter/laravel-magento-stock": "*",
+        "justbetter/nova-error-logger": "^4.1.0",
+        "justbetter/laravel-magento-stock": "^1.2.0",
         "bolechen/nova-activitylog": "^0.4.0"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "^9.3"
     },
     "autoload": {
         "psr-4": {

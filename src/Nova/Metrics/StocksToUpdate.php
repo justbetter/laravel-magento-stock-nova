@@ -14,7 +14,7 @@ class StocksToUpdate extends Value
     public function calculate(NovaRequest $request): ValueResult
     {
         return new ValueResult(
-          MagentoStock::query()->where('update', '=', true)->count()
+            MagentoStock::query()->where('update', '=', true)->count()
         );
     }
 

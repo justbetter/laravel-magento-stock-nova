@@ -13,7 +13,9 @@ class StocksToRetrieve extends Value
 
     public function calculate(NovaRequest $request): ValueResult
     {
-        return $this->sum($request, MagentoStock::class, 'retrieve', 'last_retrieved');
+        return new ValueResult(
+            MagentoStock::query()->where('retrieve', '=', true)->count()
+        );
     }
 
     public function uriKey(): string

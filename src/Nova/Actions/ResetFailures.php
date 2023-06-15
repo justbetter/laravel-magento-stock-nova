@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Models\MagentoStock;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 class ResetFailures extends Action
@@ -16,7 +17,7 @@ class ResetFailures extends Action
 
     public $name = 'Reset failures';
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         /** @var MagentoStock $model */
         foreach ($models as $model) {
@@ -25,5 +26,7 @@ class ResetFailures extends Action
                 'sync' => true
             ]);
         }
+
+        return ActionResponse::message(__('Finished'));
     }
 }

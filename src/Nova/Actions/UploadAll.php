@@ -11,6 +11,7 @@ use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Jobs\UpdateStockJob;
 use JustBetter\MagentoStock\Models\MagentoStock;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -30,13 +31,15 @@ class UploadAll extends Action implements ShouldQueue
         $this->onQueue(config('magento-stock.queue'));
     }
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         MagentoStock::query()
             ->when($fields->only_in_stock, fn(Builder $query) => $query->where('in_stock', true))
             ->when($fields->only_out_of_stock, fn(Builder $query) => $query->where('in_stock', false))
             ->get()
             ->each(fn(MagentoStock $stock) => UpdateStockJob::dispatch($stock->sku));
+
+        return ActionResponse::message(__('Updating'));
     }
 
     public function fields(NovaRequest $request): array

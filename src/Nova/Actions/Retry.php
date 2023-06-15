@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Models\MagentoStock;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 class Retry extends Action
@@ -16,8 +17,10 @@ class Retry extends Action
 
     public $name = 'Retry Stock';
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         $models->each(fn(MagentoStock $stock) => $stock->update(['sync' => true, 'update' => true, 'fail_count' => 0]));
+
+        return ActionResponse::message(__('Retrying'));
     }
 }

@@ -8,6 +8,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Jobs\DispatchComparisonsJob;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 class Compare extends Action
@@ -20,10 +21,10 @@ class Compare extends Action
 
     public $standalone = true;
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         DispatchComparisonsJob::dispatch();
 
-        return Action::message(__('Starting compare'));
+        return ActionResponse::message(__('Starting compare'));
     }
 }

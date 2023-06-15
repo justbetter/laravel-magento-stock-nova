@@ -26,5 +26,11 @@
         }
     },
     "minimum-stability": "dev",
-    "prefer-stable": false
+    "prefer-stable": false,
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://nova.laravel.com"
+        }
+    ]
 }

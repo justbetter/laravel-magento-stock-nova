@@ -10,6 +10,7 @@ use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Jobs\UpdateStockJob;
 use JustBetter\MagentoStock\Models\MagentoStock;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 class Upload extends Action implements ShouldQueue
@@ -25,11 +26,13 @@ class Upload extends Action implements ShouldQueue
         $this->onQueue(config('magento-stock.queue'));
     }
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         /** @var MagentoStock $model */
         foreach ($models as $model) {
             UpdateStockJob::dispatch($model->sku);
         }
+
+        return ActionResponse::message(__('Updating'));
     }
 }

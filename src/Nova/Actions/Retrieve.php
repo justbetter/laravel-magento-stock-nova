@@ -9,6 +9,7 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
 use JustBetter\MagentoStock\Jobs\RetrieveStockJob;
 use Laravel\Nova\Actions\Action;
+use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -26,13 +27,13 @@ class Retrieve extends Action implements ShouldQueue
         $this->onQueue(config('magento-stock.queue'));
     }
 
-    public function handle(ActionFields $fields, Collection $models)
+    public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         foreach ($models as $model) {
             RetrieveStockJob::dispatch($model->sku, $fields->force ?? false);
         }
 
-        return Action::message(__('Retrieving :count stocks', ['count' => $models->count()]));
+        return ActionResponse::message(__('Retrieving :count stocks', ['count' => $models->count()]));
     }
 
     public function fields(NovaRequest $request): array

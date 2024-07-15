@@ -16,8 +16,8 @@ class StockStatus extends Filter
     public function options(Request $request): array
     {
         return [
-            'In Stock' => true,
-            'Out of Stock' => false
+            (string) __('In stock') => true,
+            (string) __('Out of stock') => false,
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace JustBetter\MagentoStockNova\Nova\Metrics;
 
-use JustBetter\MagentoStock\Models\MagentoStock;
+use JustBetter\MagentoStock\Models\Stock;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
 use Laravel\Nova\Metrics\PartitionResult;
@@ -13,8 +13,9 @@ class StockSyncPartition extends Partition
 
     public function calculate(NovaRequest $request): PartitionResult
     {
-        return $this->count($request, MagentoStock::class, 'sync')
-            ->label(fn($sync) => $sync ? 'Yes' : 'No');
+        return $this
+            ->count($request, Stock::class, 'sync')
+            ->label(fn (mixed $sync): string => $sync ? __('Yes') : __('No'));
     }
 
     public function uriKey(): string

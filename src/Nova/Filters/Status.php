@@ -16,8 +16,8 @@ class Status extends Filter
     public function options(Request $request): array
     {
         return [
-            'To retrieve' => 'retrieve',
-            'To update' => 'update'
+            (string) __('To retrieve') => 'retrieve',
+            (string) __('To update') => 'update',
         ];
     }
 }

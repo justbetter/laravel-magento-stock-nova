@@ -3,20 +3,43 @@
     "description": "Nova integration for justbetter/laravel-magento-stock",
     "type": "package",
     "license": "MIT",
+    "authors": [
+        {
+            "name": "Vincent Boon",
+            "email": "vincent@justbetter.nl",
+            "role": "Developer"
+        },
+        {
+            "name": "Ramon Rietdijk",
+            "email": "ramon@justbetter.nl",
+            "role": "Developer"
+        }
+    ],
     "require": {
         "php": "^8.1",
         "laravel/nova": "^4.0",
-        "justbetter/nova-error-logger": "^4.1.0",
-        "justbetter/laravel-magento-stock": "^1.2.0",
+        "justbetter/laravel-magento-stock": "dev-feature/refactor",
         "bolechen/nova-activitylog": "^0.4.0"
+    },
+    "require-dev": {
+        "laravel/pint": "^1.16",
+        "orchestra/testbench": "^9.1",
+        "phpunit/phpunit": "^11.2",
+        "larastan/larastan": "^2.9",
+        "phpstan/phpstan-mockery": "^1.1"
     },
     "autoload": {
         "psr-4": {
             "JustBetter\\MagentoStockNova\\": "src"
         }
     },
-    "config": {
-        "sort-packages": true
+    "scripts": {
+        "analyse": "phpstan",
+        "style": "pint --test",
+        "quality": [
+            "@analyse",
+            "@style"
+        ]
     },
     "extra": {
         "laravel": {
@@ -25,8 +48,11 @@
             ]
         }
     },
+    "config": {
+        "sort-packages": true
+    },
     "minimum-stability": "dev",
-    "prefer-stable": false,
+    "prefer-stable": true,
     "repositories": [
         {
             "type": "composer",

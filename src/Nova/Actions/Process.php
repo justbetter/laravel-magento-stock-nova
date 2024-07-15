@@ -6,12 +6,12 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use JustBetter\MagentoStock\Jobs\Retrieval\RetrieveAllStockJob;
+use JustBetter\MagentoStock\Jobs\ProcessStocksJob;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
-class RetrieveAll extends Action
+class Process extends Action
 {
     use InteractsWithQueue;
     use Queueable;
@@ -20,14 +20,14 @@ class RetrieveAll extends Action
     public function __construct()
     {
         $this
-            ->withName(__('Retrieve all from source'))
+            ->withName(__('Process pending stock retrievals and updates'))
             ->standalone();
     }
 
     public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
-        RetrieveAllStockJob::dispatch();
+        ProcessStocksJob::dispatch();
 
-        return ActionResponse::message(__('Retrieving...'));
+        return ActionResponse::message(__('Processing...'));
     }
 }

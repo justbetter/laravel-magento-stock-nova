@@ -16,8 +16,8 @@ class Sync extends Filter
     public function options(Request $request): array
     {
         return [
-            'Yes' => true,
-            'No' => false,
+            (string) __('Yes') => true,
+            (string) __('No') => false,
         ];
     }
 }

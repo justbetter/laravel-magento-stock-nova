@@ -7,32 +7,32 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use JustBetter\MagentoStock\Jobs\UpdateStockJob;
-use JustBetter\MagentoStock\Models\MagentoStock;
+use JustBetter\MagentoStock\Jobs\Update\UpdateStockJob;
+use JustBetter\MagentoStock\Models\Stock;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
-class Upload extends Action implements ShouldQueue
+class Update extends Action implements ShouldQueue
 {
     use InteractsWithQueue;
     use Queueable;
     use SerializesModels;
 
-    public $name = 'Upload to Magento';
-
     public function __construct()
     {
-        $this->onQueue(config('magento-stock.queue'));
+        $this
+            ->withName(__('Update to Magento'))
+            ->onQueue(config('magento-stock.queue'));
     }
 
+    /** @param Collection<int, Stock> $models */
     public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
-        /** @var MagentoStock $model */
         foreach ($models as $model) {
-            UpdateStockJob::dispatch($model->sku);
+            UpdateStockJob::dispatch($model);
         }
 
-        return ActionResponse::message(__('Updating'));
+        return ActionResponse::message(__('Updating...'));
     }
 }

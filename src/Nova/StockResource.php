@@ -4,8 +4,8 @@ namespace JustBetter\MagentoStockNova\Nova;
 
 use Bolechen\NovaActivitylog\Resources\Activitylog;
 use Illuminate\Http\Request;
-use JustBetter\NovaErrorLogger\Nova\Error;
-use JustBetter\MagentoStock\Models\MagentoStock;
+use JustBetter\MagentoStock\Models\Stock;
+use JustBetter\MagentoStock\Repositories\BaseRepository;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\KeyValue;
@@ -15,27 +15,31 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Resource;
 
-class Stock extends Resource
+class StockResource extends Resource
 {
-    public static $model = MagentoStock::class;
+    public static string $model = Stock::class;
 
     public static $title = 'sku';
 
     public static $group = 'stock';
 
     public static $search = [
-        'sku'
+        'sku',
     ];
 
     public static function label(): string
     {
-        return 'Stock';
+        return __('Stock');
     }
 
     public function fields(NovaRequest $request): array
     {
-        $fields = [
+        $repository = BaseRepository::resolve();
 
+        /** @var Stock $model */
+        $model = $this->model();
+
+        $fields = [
             Boolean::make(__('Keep in sync'), 'sync')
                 ->help(__('Disable if this product stock should not be synced'))
                 ->sortable(),
@@ -45,17 +49,16 @@ class Stock extends Resource
                 ->sortable(),
         ];
 
-        if (config('magento-stock.msi')) {
-            $fields[] = Text::make('MSI', function () {
+        if ($repository->msi()) {
+            $fields[] = Text::make(__('MSI'), function () use ($model) {
                 $output = '';
 
-                $msiStatusses = $this->model()->msi_status;
+                $msiStatusses = $model->msi_status;
 
-                foreach ($this->model()->msi_stock ?? [] as $source => $qty) {
-
+                foreach ($model->msi_stock ?? [] as $source => $qty) {
                     $status = ($msiStatusses[$source] ?? false)
-                        ? 'In Stock'
-                        : 'Out of Stock';
+                        ? __('In Stock')
+                        : __('Out of Stock');
 
                     $output .= "<b>$source:</b> $status - $qty<br/>";
                 }
@@ -81,14 +84,11 @@ class Stock extends Resource
             ->readonly()
             ->sortable();
 
-        if (!config('magento-stock-nova.hide.single_retrieve')) {
-            $fields[] = Boolean::make(__('Retrieve'), 'retrieve')
-                ->help(__('Automatically set to true if this product should be retrieved'))
-                ->sortable();
-        }
+        $fields[] = Boolean::make(__('Retrieve'), 'retrieve')
+            ->help(__('Automatically set to true if this product should be retrieved'))
+            ->sortable();
 
         return array_merge($fields, [
-
             Boolean::make(__('Update'), 'update')
                 ->help(__('Automatically set to true if this product should be updated in Magento'))
                 ->sortable(),
@@ -103,7 +103,7 @@ class Stock extends Resource
 
             DateTime::make(__('Last failed'), 'last_failed')
                 ->readonly()
-                ->help('Max allowed failures: '.config('magento-stock.fails.count'))
+                ->help(__('Max allowed failures: :limit', ['limit' => $repository->failLimit()]))
                 ->sortable(),
 
             Number::make(__('Fail count'), 'fail_count')
@@ -111,38 +111,24 @@ class Stock extends Resource
                 ->onlyOnDetail(),
 
             MorphMany::make(__('Activity'), 'activities', Activitylog::class),
-
-            MorphMany::make(__('Errors'), 'errors', Error::class),
         ]);
-    }
-
-    public static function authorizedToCreate(Request $request): bool
-    {
-        return false;
     }
 
     public function actions(NovaRequest $request): array
     {
-        $actions = [
-            Actions\Upload::make(),
-            Actions\UploadAll::make(),
+        return [
+            Actions\Retrieve::make(),
+            Actions\RetrieveAll::make(),
+
+            Actions\Update::make(),
+            Actions\UpdateAll::make(),
 
             Actions\ResetFailures::make(),
-            Actions\Sync::make(),
+            Actions\Process::make(),
             Actions\Retry::make(),
 
-            Actions\Compare::make()
+            Actions\Compare::make(),
         ];
-
-        if (!config('magento-stock-nova.hide.single_retrieve')) {
-            $actions[] = Actions\Retrieve::make();
-        }
-
-        if (!config('magento-stock-nova.hide.retrieve_all')) {
-            $actions[] = Actions\RetrieveAll::make();
-        }
-
-        return $actions;
     }
 
     public function filters(NovaRequest $request): array
@@ -164,5 +150,10 @@ class Stock extends Resource
             Metrics\StockUpdatesPerDay::make(),
             Metrics\StockErrorsPerDay::make(),
         ];
+    }
+
+    public static function authorizedToCreate(Request $request): bool
+    {
+        return false;
     }
 }

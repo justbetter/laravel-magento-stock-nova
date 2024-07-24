@@ -18,7 +18,7 @@
     "require": {
         "php": "^8.1",
         "laravel/nova": "^4.0",
-        "justbetter/laravel-magento-stock": "dev-feature/refactor",
+        "justbetter/laravel-magento-stock": "^2.0",
         "bolechen/nova-activitylog": "^0.4.0"
     },
     "require-dev": {

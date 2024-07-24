@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use JustBetter\MagentoStock\Jobs\RetrieveStockJob;
+use JustBetter\MagentoStock\Jobs\Retrieval\RetrieveStockJob;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
@@ -20,27 +20,27 @@ class Retrieve extends Action implements ShouldQueue
     use Queueable;
     use SerializesModels;
 
-    public $name = 'Retrieve from source';
-
     public function __construct()
     {
-        $this->onQueue(config('magento-stock.queue'));
+        $this
+            ->withName(__('Retrieve from source'))
+            ->onQueue(config('magento-stock.queue'));
     }
 
     public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
         foreach ($models as $model) {
-            RetrieveStockJob::dispatch($model->sku, $fields->force ?? false);
+            RetrieveStockJob::dispatch($model->sku, $fields->get('force', false));
         }
 
-        return ActionResponse::message(__('Retrieving :count stocks', ['count' => $models->count()]));
+        return ActionResponse::message(__('Retrieving :count stocks...', ['count' => $models->count()]));
     }
 
     public function fields(NovaRequest $request): array
     {
         return [
-            Boolean::make('Force')
-                ->help('Forces an update in Magento. Even if the stock hasn\'t changed')
+            Boolean::make(__('Force'), 'force')
+                ->help(__('Forces an update in Magento, even if the stock hasn\'t changed.')),
         ];
     }
 }

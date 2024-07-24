@@ -6,27 +6,32 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Queue\SerializesModels;
 use Illuminate\Support\Collection;
-use JustBetter\MagentoStock\Models\MagentoStock;
+use JustBetter\MagentoStock\Models\Stock;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Actions\ActionResponse;
 use Laravel\Nova\Fields\ActionFields;
 
 class ResetFailures extends Action
 {
-    use InteractsWithQueue, Queueable, SerializesModels;
+    use InteractsWithQueue;
+    use Queueable;
+    use SerializesModels;
 
-    public $name = 'Reset failures';
+    public function __construct()
+    {
+        $this->withName(__('Reset failures'));
+    }
 
+    /** @param Collection<int, Stock> $models */
     public function handle(ActionFields $fields, Collection $models): ActionResponse
     {
-        /** @var MagentoStock $model */
         foreach ($models as $model) {
             $model->update([
                 'fail_count' => 0,
-                'sync' => true
+                'sync' => true,
             ]);
         }
 
-        return ActionResponse::message(__('Finished'));
+        return ActionResponse::message(__('Failures reset!'));
     }
 }

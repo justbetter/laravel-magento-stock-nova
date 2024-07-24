@@ -2,7 +2,7 @@
 
 namespace JustBetter\MagentoStockNova\Nova\Metrics;
 
-use JustBetter\MagentoStock\Models\MagentoStock;
+use JustBetter\MagentoStock\Models\Stock;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
 use Laravel\Nova\Metrics\ValueResult;
@@ -14,7 +14,9 @@ class StocksToUpdate extends Value
     public function calculate(NovaRequest $request): ValueResult
     {
         return new ValueResult(
-            MagentoStock::query()->where('update', '=', true)->count()
+            Stock::query()
+                ->where('update', '=', true)
+                ->count()
         );
     }
 

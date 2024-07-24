@@ -1,6 +1,14 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.1.2...main)
+[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.2.0...main)
+## [4.2.0](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.2.0) - 2024-07-24
+
+### What's Changed
+* Refactor by @VincentBean in https://github.com/justbetter/laravel-magento-stock-nova/pull/3
+
+
+**Full Changelog**: https://github.com/justbetter/laravel-magento-stock-nova/compare/4.1.2...4.2.0
+
 ## [4.1.2](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.1.2) - 2023-06-15
 
 * Use Nova's ActionResponse

@@ -32,6 +32,11 @@ class StockResource extends Resource
         return __('Stock');
     }
 
+    public static function uriKey(): string
+    {
+        return 'magento-stock';
+    }
+
     public function fields(NovaRequest $request): array
     {
         $repository = BaseRepository::resolve();

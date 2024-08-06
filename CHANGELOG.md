@@ -1,6 +1,16 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.2.0...main)
+[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.2.1...main)
+## [4.2.1](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.2.1) - 2024-08-06
+
+### What's Changed
+* Added uriKey by @ramonrietdijk in https://github.com/justbetter/laravel-magento-stock-nova/pull/4
+
+### New Contributors
+* @ramonrietdijk made their first contribution in https://github.com/justbetter/laravel-magento-stock-nova/pull/4
+
+**Full Changelog**: https://github.com/justbetter/laravel-magento-stock-nova/compare/4.2.0...4.2.1
+
 ## [4.2.0](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.2.0) - 2024-07-24
 
 ### What's Changed

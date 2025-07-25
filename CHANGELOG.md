@@ -1,6 +1,15 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.3.0...main)
+[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.3.1...main)
+## [4.3.1](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.3.1) - 2025-07-25
+
+### What's Changed
+* Adjust workflows by @VincentBean in https://github.com/justbetter/laravel-magento-stock-nova/pull/6
+* Support defer by @VincentBean in https://github.com/justbetter/laravel-magento-stock-nova/pull/7
+
+
+**Full Changelog**: https://github.com/justbetter/laravel-magento-stock-nova/compare/4.3.0...4.3.1
+
 ## [4.3.0](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.3.0) - 2025-02-17
 
 ### What's Changed

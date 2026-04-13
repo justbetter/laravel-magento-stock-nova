@@ -1,6 +1,14 @@
 # Changelog 
 
-[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.3.1...main)
+[Unreleased changes](https://github.com/justbetter/laravel-magento-stock-nova/compare/4.4.0...main)
+## [4.4.0](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.4.0) - 2026-04-13
+
+### What's Changed
+* Laravel 13 support by @VincentBean in https://github.com/justbetter/laravel-magento-stock-nova/pull/8
+
+
+**Full Changelog**: https://github.com/justbetter/laravel-magento-stock-nova/compare/4.3.1...4.4.0
+
 ## [4.3.1](https://github.com/justbetter/laravel-magento-stock-nova/releases/tag/4.3.1) - 2025-07-25
 
 ### What's Changed

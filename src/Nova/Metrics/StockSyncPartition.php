@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Metrics;
 
 use JustBetter\MagentoStock\Models\Stock;
@@ -15,9 +17,10 @@ class StockSyncPartition extends Partition
     {
         return $this
             ->count($request, Stock::class, 'sync')
-            ->label(fn (mixed $sync): string => $sync ? __('Yes') : __('No'));
+            ->label(fn (mixed $sync): string => $sync !== '' && $sync !== '0' ? __('Yes') : __('No'));
     }
 
+    #[\Override]
     public function uriKey(): string
     {
         return 'stock-sync-partition';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova;
 
 use Bolechen\NovaActivitylog\Resources\Activitylog;
@@ -27,11 +29,13 @@ class StockResource extends Resource
         'sku',
     ];
 
+    #[\Override]
     public static function label(): string
     {
         return __('Stock');
     }
 
+    #[\Override]
     public static function uriKey(): string
     {
         return 'magento-stock';
@@ -55,7 +59,7 @@ class StockResource extends Resource
         ];
 
         if ($repository->msi()) {
-            $fields[] = Text::make(__('MSI'), function () use ($model) {
+            $fields[] = Text::make(__('MSI'), function () use ($model): string {
                 $output = '';
 
                 $msiStatusses = $model->msi_status;
@@ -65,7 +69,7 @@ class StockResource extends Resource
                         ? __('In Stock')
                         : __('Out of Stock');
 
-                    $output .= "<b>$source:</b> $status - $qty<br/>";
+                    $output .= sprintf('<b>%s:</b> %s - %s<br/>', $source, $status, $qty);
                 }
 
                 return $output;
@@ -119,6 +123,7 @@ class StockResource extends Resource
         ]);
     }
 
+    #[\Override]
     public function actions(NovaRequest $request): array
     {
         return [
@@ -136,6 +141,7 @@ class StockResource extends Resource
         ];
     }
 
+    #[\Override]
     public function filters(NovaRequest $request): array
     {
         return [
@@ -145,6 +151,7 @@ class StockResource extends Resource
         ];
     }
 
+    #[\Override]
     public function cards(NovaRequest $request): array
     {
         return [
@@ -157,6 +164,7 @@ class StockResource extends Resource
         ];
     }
 
+    #[\Override]
     public static function authorizedToCreate(Request $request): bool
     {
         return false;

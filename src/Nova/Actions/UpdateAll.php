@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
@@ -43,6 +45,7 @@ class UpdateAll extends Action implements ShouldQueue
         return ActionResponse::message(__('Updating...'));
     }
 
+    #[\Override]
     public function fields(NovaRequest $request): array
     {
         return [

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Metrics;
 
 use JustBetter\MagentoStock\Models\Stock;
@@ -20,6 +22,7 @@ class StocksToRetrieve extends Value
         );
     }
 
+    #[\Override]
     public function uriKey(): string
     {
         return 'stock-to-retrieve';

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Filters;
 
 use Illuminate\Contracts\Database\Eloquent\Builder as EloquentBuilder;
@@ -14,6 +16,7 @@ class Sync extends Filter
         return $query->where('sync', $value);
     }
 
+    #[\Override]
     public function options(Request $request): array
     {
         return [

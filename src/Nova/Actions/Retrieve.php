@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Actions;
 
 use Illuminate\Bus\Queueable;
@@ -36,11 +38,12 @@ class Retrieve extends Action implements ShouldQueue
         return ActionResponse::message(__('Retrieving :count stocks...', ['count' => $models->count()]));
     }
 
+    #[\Override]
     public function fields(NovaRequest $request): array
     {
         return [
             Boolean::make(__('Force'), 'force')
-                ->help(__('Forces an update in Magento, even if the stock hasn\'t changed.')),
+                ->help(__("Forces an update in Magento, even if the stock hasn't changed.")),
         ];
     }
 }

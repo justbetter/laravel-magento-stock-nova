@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova;
 
 use Illuminate\Support\ServiceProvider as BaseServiceProvider;

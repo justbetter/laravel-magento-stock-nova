@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace JustBetter\MagentoStockNova\Nova\Metrics;
 
 use JustBetter\MagentoStock\Models\Stock;
@@ -14,6 +16,7 @@ class StockRetrievalsPerDay extends Trend
         return $this->countByDays($request, Stock::class, 'last_retrieved');
     }
 
+    #[\Override]
     public function ranges(): array
     {
         return [
@@ -23,6 +26,7 @@ class StockRetrievalsPerDay extends Trend
         ];
     }
 
+    #[\Override]
     public function uriKey(): string
     {
         return 'stock-retrievals-per-day';
